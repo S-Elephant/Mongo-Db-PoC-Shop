@@ -1,6 +1,7 @@
 ﻿using Elephant.Types;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
+using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using MongoDbShop.Entities;
 using MongoDbShop.Shared;
@@ -8,7 +9,7 @@ using MongoDbShop.Shared;
 namespace MongoDbShop.Pages
 {
 	/// <summary>
-	/// Index page.
+	/// Index page that I abuse for this PoC.
 	/// </summary>
 	public partial class Index : IDisposable
 	{
@@ -25,6 +26,19 @@ namespace MongoDbShop.Pages
 		private List<Product> _productsFiltered = new();
 		private string _filterPropertyName = "name";
 		private string _filterValue = "Wood planks";
+		private string _insertJson = @"[{
+  ""name"": ""Copper plates"",
+  ""quantity"": 84,
+  ""price"": 12.50
+},{
+  ""name"": ""Coils"",
+  ""quantity"": 200,
+  ""price"": 0.42,
+  ""description"": ""Copper version.""
+}]";
+
+		private string _partialDeleteFilterProperty = "name";
+		private string _partialDeleteFilterValue = "Coils";
 
 		/// <summary>
 		/// On initialize.
@@ -81,6 +95,25 @@ namespace MongoDbShop.Pages
 			FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(propertyName, propertyValue);
 			_productsFiltered = await _collectionProduct.Find(filter).ToListAsync(_cts.Token);
 			StateHasChanged();
+		}
+
+		/// <summary>
+		/// Insert document from JSON.
+		/// </summary>
+		private async Task InsertByJson(string json)
+		{
+			IList<Product> documentsToInsert = BsonSerializer.Deserialize<IList<Product>>(json);
+			await _collectionProduct.InsertManyAsync(documentsToInsert, cancellationToken: _cts.Token);
+		}
+
+		/// <summary>
+		/// Delete documents by partial match (case-insensitive).
+		/// </summary>
+		private async Task DeleteByPartialMatch(string filterProperty, string filterValue)
+		{
+			// "(?i)" makes the regex case-insensitive.
+			FilterDefinition<Product> filter = Builders<Product>.Filter.Regex(filterProperty, $"/(?i){filterValue}/");
+			await _collectionProduct.DeleteManyAsync(filter, _cts.Token);
 		}
 
 		/// <inheritdoc cref="IDisposable.Dispose"/>
