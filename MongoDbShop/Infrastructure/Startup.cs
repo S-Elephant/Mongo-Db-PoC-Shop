@@ -6,7 +6,6 @@ using MongoDbShop.Dal.Abstractions.Repositories;
 using Microsoft.Extensions.Logging;
 #endif
 using MongoDB.Driver;
-using MongoDbShop.Dal.Abstractions.Contexts;
 using MongoDbShop.Dal.Contexts;
 using MongoDbShop.Dal.Repositories;
 using MongoDbShop.Shared;
