@@ -52,13 +52,22 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Elephant.Database.MongoDb" Version="1.0.3" />
         <PackageReference Include="Elephant.Types" Version="4.0.2" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
-        <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+        <PackageReference Include="MongoDB.Driver" Version="2.19.2" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\MongoDbShop.Bl.Abstractions\MongoDbShop.Bl.Abstractions.csproj" />
+      <ProjectReference Include="..\MongoDbShop.Bl\MongoDbShop.Bl.csproj" />
+      <ProjectReference Include="..\MongoDbShop.Dal.Abstractions\MongoDbShop.Dal.Abstractions.csproj" />
+      <ProjectReference Include="..\MongoDbShop.Dal\MongoDbShop.Dal.csproj" />
+      <ProjectReference Include="..\MongoDbShop.Entities\MongoDbShop.Entities.csproj" />
     </ItemGroup>
 
 </Project>

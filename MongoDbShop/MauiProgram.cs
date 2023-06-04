@@ -1,6 +1,4 @@
-﻿#if DEBUG
-using Microsoft.Extensions.Logging;
-#endif
+﻿using MongoDbShop.Infrastructure;
 
 namespace MongoDbShop;
 
@@ -22,12 +20,7 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 			});
 
-		builder.Services.AddMauiBlazorWebView();
-
-#if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
-		builder.Logging.AddDebug();
-#endif
+		new Startup().ConfigureServices(builder);
 
 		return builder.Build();
 	}
