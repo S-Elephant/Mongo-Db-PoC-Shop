@@ -12,6 +12,6 @@ namespace MongoDbShop.Dal.Contexts
 		/// <summary>
 		/// <see cref="Product"/> <see cref="DbSet{TEntity}"/>.
 		/// </summary>
-		public DbSet<Product> Products { get; set; }
+		DbSet<Product> Products { get; set; }
 	}
 }

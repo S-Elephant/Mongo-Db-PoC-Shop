@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elephant.Database.MongoDb" Version="1.0.1" />
+    <PackageReference Include="Elephant.Database.MongoDb" Version="1.1.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.19.2" />
   </ItemGroup>
 
