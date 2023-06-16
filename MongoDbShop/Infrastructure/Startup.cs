@@ -1,4 +1,5 @@
-﻿using Elephant.Database.MongoDb.Abstractions.Repositories;
+﻿using Elephant.Database.MongoDb;
+using Elephant.Database.MongoDb.Abstractions.Repositories;
 using Elephant.Database.MongoDb.DependencyInjection;
 using Elephant.Database.MongoDb.Repositories;
 using MongoDbShop.Dal.Abstractions.Repositories;
@@ -25,11 +26,8 @@ namespace MongoDbShop.Infrastructure
 			IServiceCollection services = builder.Services;
 
 			services.AddMauiBlazorWebView();
-			services.AddMongoContext<IShopContext, ShopContext>(options =>
-			{
-				options.ConnectionString = Constants.ConnectionString;
-				options.DatabaseName = Constants.DatabaseName;
-			});
+
+			ConfigureDatabases(services);
 
 #if DEBUG
 			services.AddBlazorWebViewDeveloperTools();
@@ -39,6 +37,17 @@ namespace MongoDbShop.Infrastructure
 
 			services.AddScoped<IProductRepository, ProductRepository>();
 			services.AddScoped<IDatabaseRepository, DatabaseRepository>(x => new DatabaseRepository(new MongoClient(Constants.ConnectionString)));
+		}
+
+		private static void ConfigureDatabases(IServiceCollection services)
+		{
+			ConventionPacks.EnforceGlobalCamelCase();
+
+			services.AddMongoContext<IShopContext, ShopContext>(options =>
+			{
+				options.ConnectionString = Constants.ConnectionString;
+				options.DatabaseName = Constants.DatabaseName;
+			});
 		}
 	}
 }
